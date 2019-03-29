@@ -1,5 +1,5 @@
 {
-  "name": "fhtml",
+  "name": "@perbyhring/fhtml",
   "version": "0.1.0",
   "description": "My personal template literal-based reactive ui-framework for small web apps",
   "author": "Per Byhring",
@@ -15,5 +15,13 @@
   },
   "devDependencies": {
     "parcel-bundler": "^1.10.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perbyhring/fhtml.git"
+  },
+  "bugs": {
+    "url": "https://github.com/perbyhring/fhtml/issues"
+  },
+  "homepage": "https://github.com/perbyhring/fhtml#readme"
 }
