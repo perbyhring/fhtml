@@ -6,7 +6,7 @@
   "source": "./src/index.js",
   "main": "./dist/fhtml.js",
   "scripts": {
-    "build": "parcel build src/fhtml.js --out-file fhtml.js",
+    "build": "parcel build src/fhtml.js --out-file fhtml.js --global fhtml",
     "serve": "parcel index.html --out-dir dev"
   },
   "license": "MIT",
