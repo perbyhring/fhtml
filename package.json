@@ -1,0 +1,19 @@
+{
+  "name": "fhtml",
+  "version": "0.1.0",
+  "description": "My personal template literal-based reactive ui-framework for small web apps",
+  "author": "Per Byhring",
+  "source": "./src/index.js",
+  "main": "./dist/fhtml.js",
+  "scripts": {
+    "build": "parcel build src/fhtml.js --out-file fhtml.js",
+    "serve": "parcel index.html --out-dir dev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "is-plain-object": "^2.0.4"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.10.3"
+  }
+}

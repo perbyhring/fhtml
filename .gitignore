@@ -1,0 +1,7 @@
+node_modules
+.cache
+.vscode
+.DS_STORE
+dev
+index.html
+data-test.js
