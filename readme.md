@@ -7,7 +7,7 @@ I use it to create interactive graphics and stuff like that.
 
 ## Hello world
 ```
-import html from 'fhtml'
+import html from '@perbyhring/fhtml'
 
 html`
   <div class="#app">
