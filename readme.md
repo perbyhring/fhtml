@@ -1,11 +1,10 @@
 # fhtml
-My personal template literal-based reactive ui-framework for small web apps. Inspired by Vue.js and lit-html.
-I use it to create interactive graphics and stuff like that.
+My personal template literal-based ui-library for small web apps. Inspired by Vue.js and lit-html. I use it to create interactive graphics and stuff like that.
 
 ## Documentation
 `<img src="shovel-guy.gif">`
 
-## Examples
+## Some examples
 
 ### Hello world
 ```
