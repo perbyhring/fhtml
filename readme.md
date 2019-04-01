@@ -48,7 +48,7 @@ import html from '@perbyhring/fhtml'
 const app = html`
   <div class="#app">
     <ul>
-    ${f => f.map.messages(() => html`
+    ${f => f.map.data.messages(() => html`
       <li>${f => f.prop.text()}</li>
     `)}
     </ul>
