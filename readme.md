@@ -5,30 +5,64 @@ I use it to create interactive graphics and stuff like that.
 ## Documentation
 `<img src="shovel-guy.gif">`
 
-## Hello world
+## Examples
+
+### Hello world
 ```
 import html from '@perbyhring/fhtml'
 
-html`
+const app = html`
   <div class="#app">
-    <input
-      type="checkbox"
-      .checked=${f => f.state.showMessage()}
-      @click=${f => f.state.showMessage(f.node.checked)}
-    >
-    <input
-      type="text"
-      .value=${f => f.data.message()}
-      @input=${f => f.data.message(f.node.value)}
-    >
-    <h1>${f => f.state.showMessage() && f.data.message()}</h1>
+    ${f => f.data.message()}
   </div>
 `
-.state({
-  showMessage: true
-})
 .data({
   message: 'Hello fhtml!'
 })
 .mount(document.querySelector('#app'))
 ```
+
+### Input
+```
+import html from '@perbyhring/fhtml'
+
+const app = html`
+  <div class="#app">
+    ${f => f.data.message()}
+    <input
+      type="text"
+      .value=${f => f.data.message()}
+      @input=${f => f.data.message(f.node.value)}
+    >
+  </div>
+`
+.data({
+  message: 'Hello fhtml!'
+})
+.mount(document.querySelector('#app'))
+```
+
+### List
+```
+import html from '@perbyhring/fhtml'
+
+const app = html`
+  <div class="#app">
+    <ul>
+    ${f => f.map.messages(() => html`
+      <li>${f => f.prop.text()}</li>
+    `)}
+    </ul>
+  </div>
+`
+.data({
+  messages: [
+    { text: 'Hello fhtml!'},
+    { text: 'How are you?'},
+    { text: 'Fine, thanks!' }
+  ]
+})
+.mount(document.querySelector('#app'))
+```
+
+### More examples coming soon, perhaps
