@@ -33,7 +33,6 @@ const app = html`
   </div>
 `
 .mount(placeholderElement)
-// ^ or parent.appendChild(app.$el)
 
 greeting = 'Have a greeeeat day'
 name = 'Buddy McGee!'
