@@ -3,11 +3,20 @@ This is my personal reactive ui-library for small web-apps. I use it to create i
 
 It's pretty small. 4.7kb gzipped.
 
+## Documentation / Disclaimer
+
+This library is not properly documented. And probably won't be. Ever.
+You should consider this library nothing more than a little experiment from a random person on the internet.
+
+I mean, I use it. But I also made it. So I also know when **not** to use it. You don't, so perhaps you should use something else.
+
+With that out of the way, here's how you use it XD
+
 ## Import
 ```
 import html from '@perbyhring/fhtml'
 ```
-I like to import the libraray as `html` because then I can use the lit-html syntax-highliger in vscode to make my templates look `<🐱>purrrrty</🐱>`.
+I like to import the libraray as `html` because then I can use the lit-html syntax-highlighter in vscode to make my templates look `<🐱>purrrrty</🐱>`.
 
 ## The basic idea
 
@@ -476,7 +485,6 @@ f.data.people().push(f.state.newPerson())
 ```
 ...`f=>html` wouldn't understand that the people-array had been updated. It's a pretty tedious excercise trying to explain exactly why you have to do it this way, so I won't attempt that right now :/
 
-### More examples coming soon, perhaps
-I dunno. Maybe this little library is a pile of crap? It was pretty fun to make either way. I mean, I use it. But I also made it. So I also know when not to use it. You don't, so perhaps you should use something else. 
+### Examples of real stuff
 
-There's a lot of things I haven't covered here, and some best practises which are still all in my head. Until I've managed to write them down you should consider this library nothing more than a little experiment from a random person on the internet.
+I'll add some examples of real things I've built with this library soon. I think that'll maybe give a better overview of what types of projects it's appropriate for, and how the projects should be structured.
