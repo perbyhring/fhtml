@@ -67,10 +67,7 @@ Data.prototype.emitSubscriber = function(subscriber) {
     return
   subscriber.fn(newValue, subscriber.value ? subscriber.value : false, subscriber.path)
   subscriber.value = newValue
-  // if (JSON.stringify(newValue) === subscriber.value)
-  //   return
-  // subscriber.fn(newValue, subscriber.value ? JSON.parse(subscriber.value) : false, subscriber.path)
-  // subscriber.value = JSON.stringify(newValue)
+  
 }
 Data.prototype.notifySubscribers = function(path, oldValue) {
   this.subscribers.entries

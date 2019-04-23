@@ -17,6 +17,7 @@ const renderAsSvg = string => string.search(/<!--?(\s*)svg?(\s*)-->/gmi) !== -1
 const fhtmlFn = /fhtmlfn\((\d+)\)/g
 const fhtmlFnWholeExpression = /(fhtmlfn\(\d+\))/gm
 const isFhtmlFn = string => string.search(fhtmlFn) !== -1
+const isPromise = value => value instanceof Promise
 
 const createRenderContext = def => {
   if (renderAsSvg(def))
@@ -81,8 +82,8 @@ const createproxy = (f, data, subscribers, path = '') =>  new Proxy(() => {}, {
   apply(target, thisArg, argumentsList) {
     const value = argumentsList[0]
     if (!isUndefined(value))
-      rendererData.bind(f())(data(), subscribers, path, value)
-    return rendererData.bind(f())(data(), subscribers, path)
+      rendererData.bind(f())(data(), subscribers(), path, value)
+    return rendererData.bind(f())(data(), subscribers(), path)
   },
   get(obj, prop, value) {
     if (prop === isProxy)
@@ -112,7 +113,9 @@ function rendererData(data, subscribers, path, value) {
     isUndefined(value))
   {
     subscribers.push({path, id: this})
-    data().subscribe(path, () => this.render(), this)
+    data().subscribe(path, () => {
+      this.render()
+    }, this)
   }
   return data(path, value)
 }
@@ -145,10 +148,10 @@ const sharedRendererMethods = (fn, node, component) => {
       })
       subscribers.props = []
     },
-    state: createproxy(() => renderer, () => component.$state, subscribers.state),
-    data: createproxy(() => renderer, () => component.$data, subscribers.data),
-    prop: createproxy(() => renderer, () => component.$props, subscribers.props),
-    attr: createproxy(() => renderer, () => component.$attrs, subscribers.attrs),
+    state: createproxy(() => renderer, () => component.$state, () => subscribers.state),
+    data: createproxy(() => renderer, () => component.$data, () => subscribers.data),
+    prop: createproxy(() => renderer, () => component.$props, () => subscribers.props),
+    attr: createproxy(() => renderer, () => component.$attrs, () => subscribers.attrs),
     renderTimestamp: 0,
     render() {
       renderingScheduler.add(renderer)
@@ -301,10 +304,11 @@ const linkContent = (node, expressions, renderers, component) => {
                 fn(props, i, arr)
               )
               if (isComponent(childComponent)) {
-                childComponent.props(childComponentProps)
                 childComponent.renderers.forEach(renderer => {
                   renderer.resetPropSubscribers()
                 })
+                childComponent.props(childComponentProps)
+                renderer.render()
               }
               return childComponent
             })
@@ -457,8 +461,9 @@ const setWatchers = (component, data, watchers) => {
       handler = watcher.handler
       deep = watcher.deep
     }
-    data().unsubscribe(prop, handler.bind(component), `watcher`, deep)
-    data().subscribe(prop, handler.bind(component), `watcher`, deep)
+    const id = `${data().basePath}--watcher-${prop}`
+    data().unsubscribe(prop, handler.bind(component), id, deep)
+    data().subscribe(prop, handler.bind(component), id, deep)
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@perbyhring/fhtml",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "My personal template literal-based reactive ui-framework for small web apps",
   "author": "Per Byhring",
   "source": "./src/fhtml.js",
