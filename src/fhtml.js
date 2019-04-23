@@ -127,13 +127,6 @@ const createSubscribers = () => ({
   attrs: []
 })
 
-const dataType = {
-  state: '$state',
-  data: '$data',
-  prop: '$props',
-  attr: '$attrs'
-}
-
 const sharedRendererMethods = (fn, node, component) => {
   const subscribers = createSubscribers()
   let isStatic = false
@@ -150,8 +143,8 @@ const sharedRendererMethods = (fn, node, component) => {
     },
     state: createproxy(() => renderer, () => component.$state, () => subscribers.state),
     data: createproxy(() => renderer, () => component.$data, () => subscribers.data),
-    prop: createproxy(() => renderer, () => component.$props, () => subscribers.props),
-    attr: createproxy(() => renderer, () => component.$attrs, () => subscribers.attrs),
+    props: createproxy(() => renderer, () => component.$props, () => subscribers.props),
+    attrs: createproxy(() => renderer, () => component.$attrs, () => subscribers.attrs),
     renderTimestamp: 0,
     render() {
       renderingScheduler.add(renderer)
@@ -296,7 +289,7 @@ const linkContent = (node, expressions, renderers, component) => {
           renderer.cache = (key, fn) => getCachedComponent(cache, key, fn)
           renderer.map = createContentProxy(() => renderer, '_map')
           renderer._map = (type, value, fn = v => v) => {
-            const $data = component[dataType[type]]
+            const $data = component[`$${type}`]
             return renderer[type][value]().map((key, i, arr) => {
               const childComponentProps = (prop, newVal) => $data().extract(`${value}.${i}`)
               const props = renderer[type][value][i]
