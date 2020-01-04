@@ -225,14 +225,17 @@ const linkAttributeOrProperty = (isProperty, attribute, node, fn, renderers, com
     }
     else if (isPlainObject(newValue) && attribute === 'dataset') {
       for (let k in newValue) {
-        node.dataset[k] = JSON.stringify(newValue[k])
+        node.dataset[k] = newValue[k]
       }
     }
     else if (isProperty) {
       node[property] = newValue
     }
     else {
-      node.setAttribute(attribute, newValue)
+      if (!newValue)
+        node.removeAttribute(attribute)
+      else
+        node.setAttribute(attribute, newValue)
     }
     renderer.value = newValue 
   }
@@ -404,6 +407,8 @@ const replaceContent = (parentComponent, newValue, oldValue) => {
   componentsToBeMounted
     .forEach(component => {
       component.state(parentComponent.$state)
+      if (component.shouldInheritProps)
+        component.props(parentComponent.$props)
       component.render()
       window.requestAnimationFrame(() => {
         component.lifeCycle('mounted')
@@ -530,6 +535,10 @@ function fhtml() {
     },
     get $props() {
       return componentProps
+    },
+    inheritProps() {
+      this.shouldInheritProps = true
+      return this
     },
     attrs(props) {
       componentAttrs = insertData(props)

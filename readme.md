@@ -321,7 +321,7 @@ This might look strange, but when you want to loop through your data, you need t
 **Example:**
 ```
 const message = () => html`
-  <li>${f => f.prop.text()}</li>
+  <li>${f => f.props.text()}</li>
 `
 html`
   <div class="app">
@@ -360,7 +360,7 @@ const message = () => html`
       f.data.clicks(addOne)
     }}
   >
-  ${f => f.prop.text()} has been clicked
+  ${f => f.props.text()} has been clicked
   ${f => f.data.clicks()} times.
   </li>
 `
@@ -430,9 +430,9 @@ html`
   <div class="app">
   ${f => f.map.data.people(() => html`
     <div class="person">
-      Name:${f => f.prop.name()}
+      Name:${f => f.props.name()}
       <br>
-      Age: ${f => f.prop.age()}
+      Age: ${f => f.props.age()}
     </div>  
   `)}
   </div>
