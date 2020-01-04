@@ -13,7 +13,7 @@ I mean, I use it. But I also made it. So I also know when **not** to use it. You
 With that out of the way, here's how you use it XD
 
 ## Import
-```
+```js
 import html from '@perbyhring/fhtml'
 ```
 I like to import the libraray as `html` because then I can use the lit-html syntax-highlighter in vscode to make my templates look `<🐱>purrrrty</🐱>`.
@@ -23,7 +23,7 @@ I like to import the libraray as `html` because then I can use the lit-html synt
 The basic idea of `f=>html` is that everything inserted as a function in the template-literal can be re-rendererd.
 
 **Basic example:**
-```
+```js
 let greeting = 'Hello'
 let name = 'World'
 
@@ -80,7 +80,7 @@ Svg-elements sometimes contains attributes which are case-sensitive. These must 
 You have to do it this way because I tell you to. Also because this library does not use a virtual-dom implementation. Therefore the browser automatically translates all uppercase-attributes to lowercase. I could write more letters to explain this problem but it's pretty boring, so I won't.
 
 **Attribute example:**
-```
+```js
 html`
   <div class="app" :title=${f => f.data.message()}>
     ${f => f.data.message()}
@@ -99,7 +99,7 @@ Properties are prefixed with a `.`.
 A big heads-up here is that `textContent` could also be written as `textcontent`. The library will try to find the correct property automatically. If you for some reason have a dom-node which also contains a lowercase `textcontent`-property, the results will be unpredictable. Which can be nice on valentines day or similar events where you're hungry for excitement, but not so nice in a ui-library. So just remember that.
 
 **Property example:**
-```
+```js
 html`
   <div class="app" .textContent=${f => f.data.message()}></div>
 `
@@ -113,7 +113,7 @@ html`
 If you don't trust the library to make the right assumtion about which property to set, you could also set it through a directive.
 
 **Here's a simple little directive:**
-```
+```js
 html`
   <div
     class="app" ${f => 
@@ -130,7 +130,7 @@ html`
 Directives can also be used to run more complex and/or fun manipulations of a dom-node. For instance painting something to a canvas.
 
 **Canvas directive example:**
-```
+```js
 html`
   <canvas ${f => {
     f.isStatic
@@ -149,7 +149,7 @@ By calling the special `f.isStatic`-property you tell `f=>html` to never re-run 
 Events are declared in a similar way to Vue's shorthand event-syntax, with the `@`-prefix.
 
 **Event example:**
-```
+```js
 const add = n1 => n2 => n1 + n2
 const addOne = add(1)
 html`
@@ -181,7 +181,7 @@ Also notice that the number of clicks are converted to a string with `f.state.cl
 Conditionals can be written in a similar way to how I think it's done in React.
 
 **Conditional example:**
-```
+```js
 html`
   <div class="app">
     ${f => f.state.showMessage() && f.data.message()}
@@ -207,7 +207,7 @@ html`
 These are written just like normal events, on the dom-nodes themselves.
 
 **Example:**
-```
+```js
 const app = html`
   <div
     @beforemount=${f => console.log(f.node, 'before mount!)}
@@ -227,7 +227,7 @@ setTimeout(app.unmount, 2000)
 Inputs and other form-elements are bound in a similar way to other ui-libraries.
 
 **Input example:**
-```
+```js
 html`
   <div class="app">
     ${f => f.data.message()}
@@ -253,7 +253,7 @@ If you have a lot of conditional logic, objects are probably the way to go.
 If you write your classnames as objects the property-name is the name of the class, and the property-value is a `true`- or `false`-value, which tells `f=>html` whether to add the classname.
 
 **Classnames example:**
-```
+```js
 html`
   <div
     :class=${f => ({
@@ -276,7 +276,7 @@ Styles can also be written as strings or objects.
 The css `transform`-property can contain nested values for each type of transform.
 
 **Example:**
-```
+```js
 html`
   <div
     :style=${f => ({
@@ -319,7 +319,7 @@ html`
 This might look strange, but when you want to loop through your data, you need to write it like `f.map.data.messages(component)`, instead of the normal javascript way of going `array.map(function)`.
 
 **Example:**
-```
+```js
 const message = () => html`
   <li>${f => f.props.text()}</li>
 `
@@ -350,7 +350,7 @@ html`
 Props are passed from a parent-component's state/data/prop, to a child-component.
 
 **Example of all three types of data:**
-```
+```js
 const addOne = n => ++n
 
 const message = () => html`
@@ -391,7 +391,7 @@ const app = html`
 
 If you want to access or change the data outside of the application you do it like this:
 
-```
+```js
 const app = html`
   <div>
     ${f => f.state.counter()}
@@ -411,13 +411,13 @@ setTimeout(() => {
 }, 1000)
 ```
 To access data from outside the application you need to use a dot notation string. So for instance if you want to access a nested attribute it would look like this:
-```
+```js
 const firstPersonAge = app.$data('people.0.age')
 ```
 
 You can subscribe to changes in the data from *outside* of the application like this:
 
-```
+```js
 app.$data().subscribe('people.0.age'. (newVal, oldVal) => {
   console.log(`First person age updated from ${oldVal} to ${newVal}`)
 })
@@ -425,7 +425,7 @@ app.$data().subscribe('people.0.age'. (newVal, oldVal) => {
 
 You can also subscribe to changes in the data *inside* like this:
 
-```
+```js
 html`
   <div class="app">
   ${f => f.map.data.people(() => html`
@@ -455,7 +455,7 @@ html`
 ```
 
 If you want to push something to an array you should do it like this:
-```
+```js
 
 // Add person from inside the application
 const addPerson = f => {
@@ -473,13 +473,13 @@ app.$data('people', people => [
 ```
 
 If you did this...
-```
+```js
 f.data.people(people => 
   people.push(f.state.newPerson())
 )
 ```
 ... or this ...
-```
+```js
 f.data.people().push(f.state.newPerson())
 ```
 ...`f=>html` wouldn't understand that the people-array had been updated. It's a pretty tedious excercise trying to explain exactly why you have to do it this way, so I won't attempt that right now :/
